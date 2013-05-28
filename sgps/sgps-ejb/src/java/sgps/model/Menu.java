@@ -22,7 +22,7 @@ import javax.persistence.ManyToMany;
  * @author remoto
  */
 @Entity
-public class Usuario implements Serializable {
+public class Menu implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -30,19 +30,19 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(unique = true, nullable = false, length = 45)
-    private String login;
-    
     @Column(nullable = false, length = 45)
-    private String clave;
+    private String etiqueta;
     
-    @Column(nullable = false, length = 80)
-    private String descripcion;    
+    @Column(length = 255)
+    private String control;
     
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "usuario_grupo", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
-    private Set<Grupo> grupos = new HashSet<Grupo>();
+    @Column(length = 45)
+    private String icono;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "menu_grupo", joinColumns = { @JoinColumn(name = "MENU_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
+    private Set<Grupo> grupos = new HashSet<Grupo>();
+    
     public Long getId() {
         return id;
     }
@@ -61,10 +61,10 @@ public class Usuario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+        if (!(object instanceof Menu)) {
             return false;
         }
-        Usuario other = (Usuario) object;
+        Menu other = (Menu) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -73,49 +73,49 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "sgps.model.Usuario[ id=" + id + " ]";
+        return "sgps.model.Menu[ id=" + id + " ]";
     }
 
     /**
-     * @return the login
+     * @return the etiqueta
      */
-    public String getLogin() {
-        return login;
+    public String getEtiqueta() {
+        return etiqueta;
     }
 
     /**
-     * @param login the login to set
+     * @param etiqueta the etiqueta to set
      */
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEtiqueta(String etiqueta) {
+        this.etiqueta = etiqueta;
     }
 
     /**
-     * @return the clave
+     * @return the control
      */
-    public String getClave() {
-        return clave;
+    public String getControl() {
+        return control;
     }
 
     /**
-     * @param clave the clave to set
+     * @param control the control to set
      */
-    public void setClave(String clave) {
-        this.clave = clave;
+    public void setControl(String control) {
+        this.control = control;
     }
 
     /**
-     * @return the descripcion
+     * @return the icono
      */
-    public String getDescripcion() {
-        return descripcion;
+    public String getIcono() {
+        return icono;
     }
 
     /**
-     * @param descripcion the descripcion to set
+     * @param icono the icono to set
      */
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setIcono(String icono) {
+        this.icono = icono;
     }
 
     /**

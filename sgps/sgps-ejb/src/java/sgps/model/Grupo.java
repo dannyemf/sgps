@@ -5,24 +5,18 @@
 package sgps.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 /**
  *
  * @author remoto
  */
 @Entity
-public class Usuario implements Serializable {
+public class Grupo implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -31,17 +25,10 @@ public class Usuario implements Serializable {
     private Long id;
     
     @Column(unique = true, nullable = false, length = 45)
-    private String login;
+    private String nombre;
     
-    @Column(nullable = false, length = 45)
-    private String clave;
-    
-    @Column(nullable = false, length = 80)
-    private String descripcion;    
-    
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "usuario_grupo", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
-    private Set<Grupo> grupos = new HashSet<Grupo>();
+    @Column(nullable = false, length = 255)
+    private String descripcion;
 
     public Long getId() {
         return id;
@@ -61,10 +48,10 @@ public class Usuario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+        if (!(object instanceof Grupo)) {
             return false;
         }
-        Usuario other = (Usuario) object;
+        Grupo other = (Grupo) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -73,35 +60,21 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "sgps.model.Usuario[ id=" + id + " ]";
+        return "sgps.model.Grupo[ id=" + id + " ]";
     }
 
     /**
-     * @return the login
+     * @return the nombre
      */
-    public String getLogin() {
-        return login;
+    public String getNombre() {
+        return nombre;
     }
 
     /**
-     * @param login the login to set
+     * @param nombre the nombre to set
      */
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    /**
-     * @return the clave
-     */
-    public String getClave() {
-        return clave;
-    }
-
-    /**
-     * @param clave the clave to set
-     */
-    public void setClave(String clave) {
-        this.clave = clave;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     /**
@@ -116,20 +89,6 @@ public class Usuario implements Serializable {
      */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    /**
-     * @return the grupos
-     */
-    public Set<Grupo> getGrupos() {
-        return grupos;
-    }
-
-    /**
-     * @param grupos the grupos to set
-     */
-    public void setGrupos(Set<Grupo> grupos) {
-        this.grupos = grupos;
     }
     
 }
