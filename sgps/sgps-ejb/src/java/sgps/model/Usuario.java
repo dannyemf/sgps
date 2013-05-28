@@ -5,6 +5,7 @@
 package sgps.model;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,15 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Column(unique = true, nullable = false, length = 45)
+    private String login;
+    
+    @Column(nullable = false, length = 45)
+    private String clave;
+    
+    @Column(nullable = false, length = 80)
+    private String descripcion;    
 
     public Long getId() {
         return id;
@@ -54,6 +64,48 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "sgps.model.Usuario[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the login
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     * @param login the login to set
+     */
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    /**
+     * @return the clave
+     */
+    public String getClave() {
+        return clave;
+    }
+
+    /**
+     * @param clave the clave to set
+     */
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    /**
+     * @return the descripcion
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * @param descripcion the descripcion to set
+     */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
 }
