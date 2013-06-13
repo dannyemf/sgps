@@ -6,7 +6,7 @@ package sgps.service;
 
 import javax.ejb.Local;
 import sgps.dao.GenericoDAOInterface;
-import sgps.model.Usuario;
+import sgps.model.seguridad.Usuario;
 
 /**
  *

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./plantilla/Master.xhtml"
+                template="/WEB-INF/plantilla/Master.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ice="http://www.icesoft.com/icefaces/component"
                 xmlns:ace="http://www.icefaces.org/icefaces/components"
@@ -13,13 +13,20 @@
             <h:panelGrid columns="2">
                 
                 <ice:outputLabel value="Usuario:"></ice:outputLabel>
-                <ice:inputText value=""></ice:inputText>
+                <ice:inputText value="#{loginController.usuario}"></ice:inputText>
                 
                 <ice:outputLabel value="Clave:"></ice:outputLabel>
-                <ice:inputSecret value=""></ice:inputSecret>
+                <ice:inputSecret value="#{loginController.clave}"></ice:inputSecret>
                 
                 <div></div>
                 <cmp:commandButton></cmp:commandButton>                
+                
+            </h:panelGrid>
+            
+            <h:panelGrid>
+                
+                <ice:commandLink value="Usuarios" action="/seguridad/usuarios/lista.xhtml?faces-redirect=true"></ice:commandLink>
+                <ice:commandLink value="Grupos" action="/seguridad/grupos/lista.xhtml?faces-redirect=true"></ice:commandLink>
                 
             </h:panelGrid>
             

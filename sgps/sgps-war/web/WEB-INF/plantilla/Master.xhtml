@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                
+        <ice:outputStyle href="/resources/css/defayult.css"></ice:outputStyle>
+        <ice:outputStyle href="/resources/css/cssLayout.css"></ice:outputStyle>
+        
+        <title>
+            <ui:insert name="title">sgps</ui:insert>
+        </title>
+    </h:head>
+
+    <h:body>
+        
+        <center>
+
+            <div style="width: 1000px">
+                <div id="top">
+                    <ui:insert name="top">
+                        <ui:include src="Header.xhtml"></ui:include>
+                    </ui:insert>
+                </div>
+
+                <div id="content" class="center_content">
+                    <ui:insert name="content">
+                        Contenido no definido
+                    </ui:insert>
+                </div>
+
+                <div id="bottom">
+                    <ui:insert name="bottom">
+                        <ui:include src="Footer.xhtml"></ui:include>
+                    </ui:insert>
+                </div>
+            </div>
+            
+        </center>
+
+    </h:body>
+
+</html>

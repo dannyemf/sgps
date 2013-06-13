@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/Master.xhtml"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">   
+
+    <ui:define name="content">        
+
+        <h:form>
+            
+            <ice:outputLabel value="Texto"></ice:outputLabel>
+            <ice:inputText value="#{permisoController.textoBusqueda}"></ice:inputText>
+            <ice:commandButton value="Buscar" actionListener="#{permisoController.eventoBuscar}"></ice:commandButton>
+            <ice:commandButton value="Nuevo" action="#{permisoController.eventoNuevo}"></ice:commandButton>            
+            
+            <ace:dataTable id="listTable" value="#{permisoController.listaDatos}"
+                           var="item" paginator="true" paginatorPosition="bottom" rows="10">
+                
+                <ace:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
+                    <h:outputText value="#{item.id}"/>
+                </ace:column>                                
+                
+                <ace:column headerText="Nombre" sortBy="descripcion" filterBy="#{item.nombre}" filterMatchMode="contains">
+                    <h:outputText value="#{item.nombre}"/>
+                </ace:column>
+                
+                <ace:column headerText="Grupos">
+                    <h:outputText value="#{item.grupos}"/>
+                </ace:column>
+                
+            </ace:dataTable>
+            
+            
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

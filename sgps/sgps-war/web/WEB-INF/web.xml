@@ -58,5 +58,11 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
-    </welcome-file-list>    
+    </welcome-file-list>
+    <ejb-local-ref>
+        <ejb-ref-name>GrupoService</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sgps.service.GrupoServiceLocal</local>
+        <ejb-link>sgps-ejb.jar#GrupoService</ejb-link>
+    </ejb-local-ref>
 </web-app>

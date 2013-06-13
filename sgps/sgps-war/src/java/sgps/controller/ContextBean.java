@@ -7,17 +7,21 @@ package sgps.controller;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import sgps.model.Usuario;
+import sgps.model.seguridad.Usuario;
 
 /**
- *
- * @author remoto
+ * Clase para manejar el contexto de usuario, como usuario autenticado, ip, formatos, etc.
+ * 
+ * @author Danny Muñoz
  */
 
 @Named
 @SessionScoped
 public class ContextBean implements Serializable{
     
+    /**
+     * Usuario autenticado
+     */
     private Usuario usuario;
 
     public ContextBean() {

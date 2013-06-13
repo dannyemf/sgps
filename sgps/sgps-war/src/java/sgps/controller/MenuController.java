@@ -4,7 +4,6 @@
  */
 package sgps.controller;
 
-import java.io.Serializable;
 import javax.inject.Named;
 
 /**
@@ -13,6 +12,6 @@ import javax.inject.Named;
  */
 
 @Named
-public class MenuController implements Serializable{
+public class MenuController extends Controller{
     
 }

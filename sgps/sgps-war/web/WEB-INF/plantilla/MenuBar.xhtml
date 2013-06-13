@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:ace="http://www.icefaces.org/icefaces/components" xmlns:h="http://java.sun.com/jsf/html">
+    
+    <h:form id="form">
+        <ace:menuBar autoSubmenuDisplay="true">            
+            <ace:submenu label="Seguridad" icon="ui-icon ui-icon-key">                
+                <ace:menuItem value="Grupos" action="/seguridad/grupos/lista.xhtml?faces-redirect=true" icon="ui-icon ui-icon-person"></ace:menuItem>
+                <ace:menuItem value="Permisos" action="/seguridad/permisos/lista.xhtml?faces-redirect=true" icon="ui-icon ui-icon-person"></ace:menuItem>
+                <ace:menuItem value="Usuarios" action="/seguridad/usuarios/lista.xhtml?faces-redirect=true" icon="ui-icon ui-icon-person"></ace:menuItem>
+            </ace:submenu>
+        </ace:menuBar>
+    </h:form>
+    
+</div>

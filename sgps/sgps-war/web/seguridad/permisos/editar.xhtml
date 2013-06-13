@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/Master.xhtml"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">   
+
+    <ui:define name="content">        
+
+        <h:form>
+            
+            <ice:outputLabel value="Acción: #{permisoController.modeloEdicion.id eq null ? 'Nuevo':'Editar'}"></ice:outputLabel>
+           
+            <ice:panelGrid columns="2">
+                
+                <ice:outputLabel value="Nombre"></ice:outputLabel>
+                <ice:inputText value="#{permisoController.modeloEdicion.nombre}" maxlength="45" required="true" validator="#{permisoController.validateNombre}">
+                    <f:validateLength minimum="3"></f:validateLength>
+                </ice:inputText>                                
+                
+            </ice:panelGrid>
+            
+            <ice:dataTable var="item" value="#{permisoController.grupos}">
+                
+                <ice:column>
+                    <ice:selectBooleanCheckbox value="#{item.checked}"></ice:selectBooleanCheckbox>
+                    <f:facet name="header">
+                        <ice:outputText value=""></ice:outputText>
+                    </f:facet>
+                </ice:column>
+                
+                <ice:column>
+                    <ice:outputText value="#{item.grupo.descripcion}"></ice:outputText>
+                    <f:facet name="header">
+                        <ice:outputText value="Grupo"></ice:outputText>
+                    </f:facet>
+                </ice:column>
+                
+            </ice:dataTable>
+            
+            <ice:commandButton value="Guardar" action="#{permisoController.eventoGuardar}"></ice:commandButton>
+            <ice:commandButton value="Cancelar" action="#{permisoController.eventoCancelar}"></ice:commandButton>
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>
