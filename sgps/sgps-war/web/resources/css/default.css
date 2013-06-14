@@ -27,3 +27,14 @@ a:link:hover, a:visited:hover  {
   font-weight : bold;
   text-decoration : underline;
 }
+
+/**
+MENSAJES DE VALIDACIÓN
+**/
+.iceMsgError{
+    color: red;
+}
+
+.iceMsgsError{
+    color: red;
+}

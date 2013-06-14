@@ -5,7 +5,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ice="http://www.icesoft.com/icefaces/component"
                 xmlns:ace="http://www.icefaces.org/icefaces/components"
-                xmlns:cmp="http://java.sun.com/jsf/composite/cmp">   
+                xmlns:cmp="http://java.sun.com/jsf/composite/cmp"
+                xmlns:f="http://java.sun.com/jsf/core">   
 
     <ui:define name="content">
         <h:form>
@@ -13,22 +14,26 @@
             <h:panelGrid columns="2">
                 
                 <ice:outputLabel value="Usuario:"></ice:outputLabel>
-                <ice:inputText value="#{loginController.usuario}"></ice:inputText>
+                <ice:panelGrid>
+                    <ice:inputText id="txtUsuario" label="Usuario" required="true" value="#{loginController.usuario}">
+                        <f:validateLength minimum="5"></f:validateLength>
+                    </ice:inputText>
+                    <ice:message for="txtUsuario"></ice:message>
+                </ice:panelGrid>
                 
                 <ice:outputLabel value="Clave:"></ice:outputLabel>
-                <ice:inputSecret value="#{loginController.clave}"></ice:inputSecret>
-                
-                <div></div>
-                <cmp:commandButton></cmp:commandButton>                
+                <ice:panelGrid>
+                    <ice:inputSecret id="txtClave" label="Clave" required="true" redisplay="true" value="#{loginController.clave}">
+                        <f:validateLength minimum="5"></f:validateLength>
+                    </ice:inputSecret>
+                    <ice:message for="txtClave"></ice:message>
+                </ice:panelGrid>
                 
             </h:panelGrid>
             
-            <h:panelGrid>
-                
-                <ice:commandLink value="Usuarios" action="/seguridad/usuarios/lista.xhtml?faces-redirect=true"></ice:commandLink>
-                <ice:commandLink value="Grupos" action="/seguridad/grupos/lista.xhtml?faces-redirect=true"></ice:commandLink>
-                
-            </h:panelGrid>
+            <ice:messages></ice:messages>
+                        
+            <ice:commandButton value="Iniciar" action="#{loginController.iniciarSession()}"></ice:commandButton>            
             
         </h:form>
     </ui:define>

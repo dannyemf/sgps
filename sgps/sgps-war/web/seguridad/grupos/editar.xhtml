@@ -5,10 +5,13 @@
                 template="/WEB-INF/plantilla/Master.xhtml"
                 xmlns:ace="http://www.icefaces.org/icefaces/components"
                 xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:s="http://sgps/jsf-custom-components/"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">   
 
-    <ui:define name="content">               
+    <ui:define name="content">   
+        
+        #{contextBean.checkPagePermiso(grupoController.modeloEdicion.id eq null ? 'crear_grupo' : 'editar_grupo')}
 
         <h:form>
             
@@ -17,22 +20,16 @@
             <ice:panelGrid columns="3">
                 
                 <ice:outputLabel value="Nombre"></ice:outputLabel>
-                <ice:inputText id="txtNombre" label="Nombre" value="#{grupoController.modeloEdicion.nombre}" maxlength="45" required="true" validator="#{grupoController.validateNombre}">
-                    <f:validateLength minimum="3"></f:validateLength>
-                    
-                    <!--
-                    <f:attribute name="model" value="#{grupoController.modeloEdicion}" />
-                    <f:attribute name="property" value="nombre" />                    
-                    <f:validator validatorId="uniqueValidator"></f:validator>
-                    -->
-                    
+                <ice:inputText id="txtNombre" label="Nombre" value="#{grupoController.modeloEdicion.nombre}" maxlength="45" required="true">
+                    <f:validateLength minimum="3" maximum="45"></f:validateLength>                    
+                    <s:uniqueValidator entity="#{grupoController.modeloEdicion}" property="nombre" message="Nombre de grupo no disponible"></s:uniqueValidator>
                 </ice:inputText>
-                <ace:message for="txtNombre"></ace:message>                                
+                <ice:message for="txtNombre"></ice:message>
                 
-                <ice:outputLabel value="Descripcion"></ice:outputLabel>
+                <ice:outputLabel value="Descripción"></ice:outputLabel>
                 <ice:inputTextarea id="txtDesc" label="Descripción" value="#{grupoController.modeloEdicion.descripcion}" maxlength="255">                    
                 </ice:inputTextarea>
-                <ace:message for="txtDesc"></ace:message>
+                <ice:message for="txtDesc"></ice:message>
                 
             </ice:panelGrid>                        
             

@@ -5,21 +5,26 @@
                 template="/WEB-INF/plantilla/Master.xhtml"
                 xmlns:ace="http://www.icefaces.org/icefaces/components"
                 xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:s="http://sgps/jsf-custom-components/"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">   
 
-    <ui:define name="content">        
-
+    <ui:define name="content">                
+        
+        #{contextBean.checkPagePermiso(permisoController.modeloEdicion.id eq null ? 'crear_permiso' : 'editar_permiso')}
+        
         <h:form>
             
             <ice:outputLabel value="Acción: #{permisoController.modeloEdicion.id eq null ? 'Nuevo':'Editar'}"></ice:outputLabel>
            
-            <ice:panelGrid columns="2">
+            <ice:panelGrid columns="3">
                 
                 <ice:outputLabel value="Nombre"></ice:outputLabel>
-                <ice:inputText value="#{permisoController.modeloEdicion.nombre}" maxlength="45" required="true" validator="#{permisoController.validateNombre}">
-                    <f:validateLength minimum="3"></f:validateLength>
-                </ice:inputText>                                
+                <ice:inputText id="txtNombre" label="Nombre" value="#{permisoController.modeloEdicion.nombre}" maxlength="45" required="true">
+                    <f:validateLength minimum="3" maximum="45"></f:validateLength>
+                    <s:uniqueValidator entity="#{permisoController.modeloEdicion}" property="nombre" message="Nombre de permiso no disponible"></s:uniqueValidator>
+                </ice:inputText>
+                <ice:message for="txtNombre"></ice:message>
                 
             </ice:panelGrid>
             
@@ -42,7 +47,7 @@
             </ice:dataTable>
             
             <ice:commandButton value="Guardar" action="#{permisoController.eventoGuardar}"></ice:commandButton>
-            <ice:commandButton value="Cancelar" action="#{permisoController.eventoCancelar}"></ice:commandButton>
+            <ice:commandButton value="Cancelar" immediate="true" action="#{permisoController.eventoCancelar}"></ice:commandButton>
             
         </h:form>
         

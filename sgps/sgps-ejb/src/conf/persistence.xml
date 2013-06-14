@@ -3,7 +3,11 @@
   <persistence-unit name="sgps-ejbPU" transaction-type="JTA">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>sgps</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>sgps.model.seguridad.Grupo</class>
+    <class>sgps.model.seguridad.Menu</class>
+    <class>sgps.model.seguridad.Permiso</class>
+    <class>sgps.model.seguridad.Usuario</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
     </properties>

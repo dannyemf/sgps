@@ -5,6 +5,8 @@
 package sgps.controller;
 
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  * Clase base con métodos de utilidad del que debe heredar todo controlador
@@ -19,7 +21,7 @@ public class Controller implements Serializable{
      * @param message El mensaje a presentar
      */
     public void addInfoMessage(String clientId, String message){
-        
+        FacesContext.getCurrentInstance().addMessage(clientId, new FacesMessage(FacesMessage.SEVERITY_INFO, message, message));
     }
     
     /**
@@ -28,7 +30,7 @@ public class Controller implements Serializable{
      * @param message El mensaje a presentar
      */
     public void addErrorMessage(String clientId, String message){
-        
+        FacesContext.getCurrentInstance().addMessage(clientId, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));
     }
     
 }

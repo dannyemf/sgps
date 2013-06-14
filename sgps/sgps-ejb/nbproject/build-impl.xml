@@ -780,8 +780,16 @@ exists or setup the property manually. For example like this:
     <!--
                 COMPILATION SECTION
             -->
-    <target depends="init" if="no.dist.ear.dir" name="-deps-module-jar" unless="no.deps"/>
-    <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps"/>
+    <target depends="init" if="no.dist.ear.dir" name="-deps-module-jar" unless="no.deps">
+        <ant antfile="${project.sgps-model}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
+    <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps">
+        <ant antfile="${project.sgps-model}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
     <target depends="init, -deps-module-jar, -deps-ear-jar" name="deps-jar"/>
     <target depends="init,deps-jar" name="-pre-pre-compile">
         <mkdir dir="${build.classes.dir}"/>
@@ -827,6 +835,8 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.slf4j-api-1.6.1.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.slf4j-log4j12-1.6.1.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.validation-api-1.0.0.GA.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.postgresql-9.2-1002.jdbc4.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${reference.sgps-model.jar}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
         <basename file="${file.reference.dom4j-1.6.1.jar}" property="manifest.file.reference.dom4j-1.6.1.jar"/>
@@ -863,8 +873,10 @@ exists or setup the property manually. For example like this:
         <basename file="${file.reference.slf4j-api-1.6.1.jar}" property="manifest.file.reference.slf4j-api-1.6.1.jar"/>
         <basename file="${file.reference.slf4j-log4j12-1.6.1.jar}" property="manifest.file.reference.slf4j-log4j12-1.6.1.jar"/>
         <basename file="${file.reference.validation-api-1.0.0.GA.jar}" property="manifest.file.reference.validation-api-1.0.0.GA.jar"/>
+        <basename file="${file.reference.postgresql-9.2-1002.jdbc4.jar}" property="manifest.file.reference.postgresql-9.2-1002.jdbc4.jar"/>
+        <basename file="${reference.sgps-model.jar}" property="manifest.reference.sgps-model.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 jar-20 jar-21 jar-22 jar-23 jar-24 jar-25 jar-26 jar-27 jar-28 jar-29 jar-30 jar-31 jar-32 jar-33 jar-34 "/>
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 jar-11 jar-12 jar-13 jar-14 jar-15 jar-16 jar-17 jar-18 jar-19 jar-20 jar-21 jar-22 jar-23 jar-24 jar-25 jar-26 jar-27 jar-28 jar-29 jar-30 jar-31 jar-32 jar-33 jar-34 jar-35 jar-36 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.dom4j-1.6.1.jar}"/>
             <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.antlr-2.7.7.jar}"/>
             <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.asm-3.3.1.jar}"/>
@@ -899,6 +911,8 @@ exists or setup the property manually. For example like this:
             <attribute name="jar-32-Extension-Name" value="${manifest.file.reference.slf4j-api-1.6.1.jar}"/>
             <attribute name="jar-33-Extension-Name" value="${manifest.file.reference.slf4j-log4j12-1.6.1.jar}"/>
             <attribute name="jar-34-Extension-Name" value="${manifest.file.reference.validation-api-1.0.0.GA.jar}"/>
+            <attribute name="jar-35-Extension-Name" value="${manifest.file.reference.postgresql-9.2-1002.jdbc4.jar}"/>
+            <attribute name="jar-36-Extension-Name" value="${manifest.reference.sgps-model.jar}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
@@ -936,6 +950,8 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.slf4j-api-1.6.1.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.slf4j-log4j12-1.6.1.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.validation-api-1.0.0.GA.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.postgresql-9.2-1002.jdbc4.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.sgps-model.jar}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">
@@ -1318,7 +1334,9 @@ exists or setup the property manually. For example like this:
     <!--
                 CLEANUP SECTION
             -->
-    <target depends="init" name="deps-clean" unless="no.deps"/>
+    <target depends="init" name="deps-clean" unless="no.deps">
+        <ant antfile="${project.sgps-model}/build.xml" inheritall="false" target="clean"/>
+    </target>
     <target depends="init" name="-do-clean">
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>

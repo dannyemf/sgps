@@ -25,12 +25,15 @@ public class UsuarioService extends GenericoJPADAO<Usuario> implements UsuarioSe
     }
     
     
-    
-    
+    @Override
+    public Usuario autenticar(String login, String clave){
+        JPAQuery q = new JPAQuery(em);
+        QUsuario us = QUsuario.usuario;
+        
+        return q.from(us).where(us.login.eq(login).and(us.clave.eq(clave))).uniqueResult(us);
+    }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-
+    
     @Override
     public List<Usuario> buscarPor(String textoBusqueda) {
         
@@ -43,6 +46,7 @@ public class UsuarioService extends GenericoJPADAO<Usuario> implements UsuarioSe
         .orderBy(us.descripcion.asc())
         .list(us);
     }
+    
     
     
 

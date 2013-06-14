@@ -19,7 +19,6 @@ import javax.faces.event.ActionEvent;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import sgps.model.seguridad.QPermiso;
 import sgps.model.seguridad.QUsuario;
 import sgps.model.seguridad.Usuario;
 import sgps.service.GrupoServiceLocal;
@@ -100,6 +99,7 @@ public class UsuarioController extends Controller{
      * @throws ValidatorException 
      */
     public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        System.out.println(value +"-" + modeloEdicion);
         JPAQuery q = service.newJpaQuery();
         QUsuario p = QUsuario.usuario;        
         boolean e = q.from(p).where(p.id.ne(modeloEdicion.getId()).and(p.login.eq((String)value))).exists();
@@ -115,8 +115,9 @@ public class UsuarioController extends Controller{
      * @param evento 
      */
     public void eventoBuscar(ActionEvent event){        
-        beginConversation();
+        beginConversation();       
         listaDatos = service.buscarPor(textoBusqueda);
+        System.out.println("buscar: " + event);
     }
     
     /**

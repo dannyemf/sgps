@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package sgps.controller.validator;
+package sgps.controller.validator.unused;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
@@ -15,7 +15,7 @@ import javax.inject.Scope;
 
 /**
  *
- * @author uti
+ * @author Danny Muñoz
  */
 @FacesValidator(value = "jpaUniqueValidator")
 @FacesComponent(value = "jpaUniqueValidator")

@@ -11,6 +11,7 @@ import sgps.dao.GenericoJPADAO;
 import sgps.model.seguridad.Permiso;
 import sgps.model.seguridad.QPermiso;
 
+
 /**
  *
  * @author uti
@@ -20,6 +21,7 @@ public class PermisoService extends GenericoJPADAO<Permiso> implements PermisoSe
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
     
     @Override
     public List<Permiso> buscarPor(String textoBusqueda) {

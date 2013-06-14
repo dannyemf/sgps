@@ -15,4 +15,6 @@ import sgps.model.seguridad.Usuario;
 @Local
 public interface UsuarioServiceLocal extends GenericoDAOInterface<Usuario>{
     
+    Usuario autenticar(String login, String clave);
+    
 }

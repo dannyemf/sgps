@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package sgps.controller.validator;
+package sgps.controller.validator.unused;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -26,7 +26,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * @author uti
  */
 
-@FacesValidator(value="uniqueValidator")
+@FacesValidator(value="uniqueValidatorx")
 public class NombreGrupoValidator implements Serializable, Validator{  
     
     GrupoServiceLocal service = lookupGrupoServiceLocal();

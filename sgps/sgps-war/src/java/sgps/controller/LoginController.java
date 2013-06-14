@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import sgps.model.seguridad.Usuario;
 import sgps.service.UsuarioServiceLocal;
 
 /**
@@ -39,8 +40,19 @@ public class LoginController extends Controller{
     /**
      * Inicia la sesión con los datos indicados
      */
-    public void iniciarSession(){
+    public String iniciarSession(){
         
+        Usuario us = service.autenticar(usuario, clave);
+        
+        if(us != null){
+            context.init(us);
+            
+            return "sgps.hxtml?faces-redirect=true";
+        }else{
+            addErrorMessage(null, "Usuario no disponible");
+        }
+        
+        return null;
     }
     
     /**
