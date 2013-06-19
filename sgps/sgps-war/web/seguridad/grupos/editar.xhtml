@@ -9,6 +9,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">   
 
+    <ui:define name="page_title">Grupos</ui:define>    
+    <ui:define name="title">Editar grupo</ui:define>
+    
     <ui:define name="content">   
         
         #{contextBean.checkPagePermiso(grupoController.modeloEdicion.id eq null ? 'crear_grupo' : 'editar_grupo')}

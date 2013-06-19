@@ -8,8 +8,11 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:s="http://sgps/jsf-custom-components/"
-                >   
+                >
 
+    <ui:define name="page_title">Usuarios</ui:define>
+    <ui:define name="title">Editar usuario</ui:define>
+    
     <ui:define name="content">
         
         #{contextBean.checkPagePermiso(usuarioController.modeloEdicion.id eq null ? 'crear_usuario' : 'editar_usuario')}
@@ -22,7 +25,7 @@
                 
                 <ice:outputLabel value="Login"></ice:outputLabel>
                 <ice:inputText id="txtLogin" label="Login" value="#{usuarioController.modeloEdicion.login}" required="true" maxlength="15">
-                    <f:validateLongRange minimum="5" maximum="15"></f:validateLongRange>
+                    <f:validateLength minimum="5" maximum="15"></f:validateLength>
                     <s:uniqueValidator entity="#{usuarioController.modeloEdicion}" property="login" message="Nombre de usuario no disponible"></s:uniqueValidator>                    
                 </ice:inputText>
                 <ice:message for="txtLogin"></ice:message>

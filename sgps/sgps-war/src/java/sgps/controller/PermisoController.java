@@ -127,6 +127,7 @@ public class PermisoController extends Controller{
         System.out.println("eventoNuevo(): " + conversation.getId());
         beginConversation();
         modeloEdicion = new Permiso();
+        
         grupos = groupService.obtenerGrupos(modeloEdicion);
         return "editar.xhtml?faces-redirect=true";
     }

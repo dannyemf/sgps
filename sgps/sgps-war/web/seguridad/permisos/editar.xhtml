@@ -9,6 +9,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">   
 
+    <ui:define name="page_title">Permisos</ui:define>    
+    <ui:define name="title">Editar permiso</ui:define>
+    
     <ui:define name="content">                
         
         #{contextBean.checkPagePermiso(permisoController.modeloEdicion.id eq null ? 'crear_permiso' : 'editar_permiso')}

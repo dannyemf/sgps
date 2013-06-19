@@ -17,12 +17,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author uti
  */
 @Entity
+@Table(schema = "seguridad")
 public class Permiso implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,8 +34,8 @@ public class Permiso implements Serializable {
     @Column(name = "nombre", length = 45, unique = true, nullable = false)
     private String nombre;
     
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "permiso_grupo", joinColumns = { @JoinColumn(name = "PERMISO_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
+    @ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinTable(name = "permiso_grupo", schema = "seguridad", joinColumns = { @JoinColumn(name = "PERMISO_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
     private Set<Grupo> grupos = new HashSet<Grupo>();
 
     public Long getId() {
@@ -74,7 +76,7 @@ public class Permiso implements Serializable {
 
     @Override
     public String toString() {
-        return "sgps.model.seguridad.Permiso[ id=" + id + " ]";
+        return "sgps.model.seguridad.Permiso[ id=" + id + ", nombre="+nombre+" ]";
     }
 
     /**

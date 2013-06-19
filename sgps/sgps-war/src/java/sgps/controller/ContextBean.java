@@ -6,6 +6,7 @@ package sgps.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -38,6 +39,8 @@ public class ContextBean implements Serializable{
     
     public void init(Usuario usuario){
         this.usuario = usuario;
+        
+        this.permisos = servicePermiso.obtenerPermisos(usuario);
     }
 
     /**
@@ -55,25 +58,42 @@ public class ContextBean implements Serializable{
     }
         
     public boolean checkPermiso(String permiso){
-        if(this.permisos.contains(permiso)){
+        if(hasPermiso(permiso)){
             return true;
         }        
         return false;
     }
     
     public boolean checkDisabled(String permiso){
-        if(this.permisos.contains(permiso)){
+        if(hasPermiso(permiso)){
             return false;
         }        
         return true;
     }
     
-    public void checkPagePermiso(String permiso){
-        FacesContext fc = FacesContext.getCurrentInstance();
-        try {            
-            fc.getExternalContext().redirect(fc.getExternalContext().getRequestContextPath() + "/nopermiso.jsf");
-        } catch (Exception e) {
+    public boolean hasPermiso(String permiso){
+        
+        for (Iterator<Permiso> it = permisos.iterator(); it.hasNext();) {
+            Permiso p = it.next();
+            if(p.getNombre().equals(permiso)){
+                return true;
+            }
         }
+        
+        return false;
+    }
+    
+    public void checkPagePermiso(String permiso){                                    
+                  
+        if(!hasPermiso(permiso)){
+            System.out.println("No contiene el permiso: " + permiso);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            try {            
+                fc.getExternalContext().redirect(fc.getExternalContext().getRequestContextPath() + "/nopermiso.jsf");
+            } catch (Exception e) {
+            }
+        }
+        
     }
 
     /**

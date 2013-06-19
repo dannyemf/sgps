@@ -39,8 +39,8 @@
             <included-library dirs="200">file.reference.slf4j-api-1.6.1.jar</included-library>
             <included-library dirs="200">file.reference.slf4j-log4j12-1.6.1.jar</included-library>
             <included-library dirs="200">file.reference.validation-api-1.0.0.GA.jar</included-library>
-            <included-library dirs="200">file.reference.postgresql-9.2-1002.jdbc4.jar</included-library>
             <included-library dirs="200">reference.sgps-model.jar</included-library>
+            <included-library dirs="200">libs.PostgreSQLDriver.classpath</included-library>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
             </source-roots>

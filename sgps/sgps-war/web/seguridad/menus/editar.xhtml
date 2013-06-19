@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/Master.xhtml"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:s="http://sgps/jsf-custom-components/"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">   
+
+    <ui:define name="page_title">Menú</ui:define>    
+    <ui:define name="title">Editar menú</ui:define>
+    
+    <ui:define name="content">                
+        
+        #{contextBean.checkPagePermiso(menuController.modeloEdicion.id eq null ? 'crear_menu' : 'editar_menu')}
+        
+        <h:form>
+            
+            <ice:outputLabel value="Acción: #{menuController.modeloEdicion.id eq null ? 'Nuevo':'Editar'}"></ice:outputLabel>
+           
+            <ice:panelGrid columns="3">
+                
+                <ice:outputLabel value="Orden"></ice:outputLabel>
+                <ice:inputText id="txtOrden" label="Orden" value="#{menuController.modeloEdicion.orden}" maxlength="10" required="true">                    
+                </ice:inputText>
+                <ice:message for="txtOrden"></ice:message>
+                
+                <ice:outputLabel value="Etiqueta"></ice:outputLabel>
+                <ice:inputText id="txtEtiqueta" label="Etiqueta" value="#{menuController.modeloEdicion.etiqueta}" maxlength="45" required="true">
+                    <f:validateLength minimum="3" maximum="45"></f:validateLength>                    
+                </ice:inputText>
+                <ice:message for="txtEtiqueta"></ice:message>
+                
+                <ice:outputLabel value="Control"></ice:outputLabel>
+                <ice:inputText id="txtControl" label="Control" value="#{menuController.modeloEdicion.control}" maxlength="255">                    
+                </ice:inputText>
+                <ice:message for="txtControl"></ice:message>
+                
+                <ice:outputLabel value="Icono"></ice:outputLabel>
+                <ice:inputText id="txtIcono" label="Icono" value="#{menuController.modeloEdicion.icono}" maxlength="45">
+                </ice:inputText>
+                <ice:message for="txtIcono"></ice:message>
+                
+                <ice:outputLabel value="Padre"></ice:outputLabel>
+                <ice:selectOneMenu value="#{menuController.modeloEdicion.padre}">
+                    <f:selectItem itemLabel="--Ninguno--"></f:selectItem>
+                    <f:selectItems value="#{menuController.listaPadres}" var="p" itemLabel="#{p.etiqueta}"></f:selectItems>
+                    
+                    <f:converter converterId="menuConverter"></f:converter>
+                </ice:selectOneMenu>
+                <ice:message for="txtIcono"></ice:message>
+                
+                
+                
+            </ice:panelGrid>
+            
+            <ice:dataTable var="item" value="#{menuController.grupos}">
+                
+                <ice:column>
+                    <ice:selectBooleanCheckbox value="#{item.checked}"></ice:selectBooleanCheckbox>
+                    <f:facet name="header">
+                        <ice:outputText value=""></ice:outputText>
+                    </f:facet>
+                </ice:column>
+                
+                <ice:column>
+                    <ice:outputText value="#{item.grupo.descripcion}"></ice:outputText>
+                    <f:facet name="header">
+                        <ice:outputText value="Grupo"></ice:outputText>
+                    </f:facet>
+                </ice:column>
+                
+            </ice:dataTable>
+            
+            <ice:commandButton value="Guardar" action="#{menuController.eventoGuardar}"></ice:commandButton>
+            <ice:commandButton value="Cancelar" immediate="true" action="#{menuController.eventoCancelar}"></ice:commandButton>
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

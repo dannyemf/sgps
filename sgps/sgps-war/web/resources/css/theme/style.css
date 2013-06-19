@@ -1,0 +1,146 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 
+    Document   : style
+    Created on : 18/06/2013, 09:27:17 AM
+    Author     : uti
+    Description:
+    Purpose of the stylesheet follows.
+*/
+
+body{
+	margin:0;	
+	padding-top: 0px;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	background-attachment: scroll;
+	background-image: url(images/bg.jpg);
+	background-repeat: repeat-x;
+	background-position: top;
+	background-color: #f7fcf8;
+}
+
+div, h1, h2, h3, h4, p, form, label, input, textarea, img, span{
+    margin:0; padding:0;
+}
+
+ul{
+    margin:0; 
+    padding:0;     
+    /*list-style-type: none;*/
+    /*font-size:0;
+    line-height:0;*/
+}
+
+ul li{
+    
+}
+
+
+.spacer{
+    clear:both; 
+    font-size:0; 
+    line-height:0;
+}
+
+.logo-text{
+    color: rgb(218, 42, 42)
+}
+
+.logo-bienvenido{
+    color: rgb(208, 145, 11);
+}
+
+.title{
+    margin: 0px;
+    /*float: left;*/
+    height: 32px;
+    /*width: 300px;*/
+    padding: 12px 0px 0px 0px;
+    text-align: left;
+    color: rgb(208, 145, 11);
+}
+
+#top{
+    width:1004px;
+    height:146px;
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-left: auto;
+    font-family: Tahoma;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: bold;
+    font-variant: normal;
+    text-transform: none;
+    
+    text-decoration: none;
+    padding: 0px;
+    float: none;
+    background-image: url(images/topbanner_bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#content{
+    min-height: 500px;
+}
+
+#bottom {
+    width: 100%;
+    margin: 0px auto;
+    font-family: "Trebuchet MS";
+    font-size: 11px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: bold;
+    font-variant: normal;
+    text-transform: none;
+    color: rgb(197, 168, 115);
+    text-decoration: none;
+    padding: 0px;
+    float: left;
+    height: 123px;
+    background-image: url("images/fotter.jpg");
+    background-repeat: repeat-x;
+    background-position: center top;
+    background-attachment: scroll;
+}
+
+
+
+.wijmo-wijmenu
+{
+    background-color: #6FB5F2;
+    border-color: #4618BA;
+}
+ 
+.wijmo-wijmenu-text
+{
+    color: #8718BA;
+}
+ 
+.wijmo-wijmenu .wijmo-wijmenu-child
+{
+    background-color: #C0EFFA;
+    border: #000000;
+}
+ 
+.wijmo-wijmenu a.wijmo-wijmenu-link:hover
+{
+    font-family: Baskerville Old Face;
+    background-color: #FAC0EC;
+    border-color: green;
+    border-style: dotted;
+}
+ 
+.wijmo-wijmenu-link
+{
+   background-color: #FFFFFF;
+   font-variant: small-caps;
+   font-family: Andy;
+}

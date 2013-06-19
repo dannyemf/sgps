@@ -43,13 +43,19 @@ public class GenericoJPADAO<T> implements GenericoDAOInterface<T> {
 
     @Override
     public T crear(T entidad) {
-       em.persist(entidad); // Crea una nueva tupla en la BD con los datos de "entidad"
-                            // -> ademas genera su ID
+        /*try {
+            T m = em.merge(entidad);
+        } catch (Exception e) {
+            em.persist(entidad);
+        }*/
+        // Crea una nueva tupla en la BD con los datos de "entidad"
+        // -> ademas genera su ID
+        em.persist(entidad);
        return entidad;
     }
 
     @Override
-    public T actualizar(T entidad) {
+    public T actualizar(T entidad) {        
        return em.merge(entidad);   // Actualiza los datos de "entidad" en su correspondiente tupla BD
     }
 

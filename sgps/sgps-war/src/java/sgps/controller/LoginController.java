@@ -6,8 +6,12 @@ package sgps.controller;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import sgps.model.seguridad.Usuario;
 import sgps.service.UsuarioServiceLocal;
 
@@ -27,6 +31,9 @@ public class LoginController extends Controller{
     @Inject
     private ContextBean context;
     
+    @Inject
+    private MenuBean menuCnt;
+    
     /**
      * Nombre de usuario
      */
@@ -45,7 +52,9 @@ public class LoginController extends Controller{
         Usuario us = service.autenticar(usuario, clave);
         
         if(us != null){
+            
             context.init(us);
+            menuCnt.init(us);
             
             return "sgps.hxtml?faces-redirect=true";
         }else{
@@ -58,7 +67,16 @@ public class LoginController extends Controller{
     /**
      * Cierra la sesión actual
      */
-    public void cerrarSession(){
+    public void cerrarSession(ActionEvent evento){
+        
+        //HttpSession sesion = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);        
+        try {
+            ExternalContext fc = FacesContext.getCurrentInstance().getExternalContext();
+            
+            fc.invalidateSession();
+            fc.redirect(fc.getRequestContextPath() + "/login.jsf?faces-redirect=true");
+        } catch (Exception e) {
+        }
         
     }
 

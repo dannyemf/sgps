@@ -17,12 +17,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author remoto
  */
 @Entity
+@Table(schema = "seguridad")
 public class Usuario implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -40,8 +42,8 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 80)
     private String descripcion;    
     
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_grupo", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
+    @ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_grupo", schema = "seguridad", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
     private Set<Grupo> grupos = new HashSet<Grupo>();
 
     public Long getId() {

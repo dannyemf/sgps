@@ -7,16 +7,22 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-                
-        <ice:outputStyle href="/resources/css/default.css"></ice:outputStyle>
-        <ice:outputStyle href="/resources/css/cssLayout.css"></ice:outputStyle>
         
-        <title>
-            <ui:insert name="title">sgps</ui:insert>
+        <!--
+        <ice:outputStyle href="/xmlhttp/css/rime/rime.css"/>
+        -->
+            
+        <ice:outputStyle href="/resources/css/default.css"></ice:outputStyle>
+        <!--
+        <ice:outputStyle href="/resources/css/cssLayout.css"></ice:outputStyle>
+        -->
+        <ice:outputStyle href="/resources/css/theme/style.css"></ice:outputStyle>
+        
+        <title>Sgps - <ui:insert name="page_title"></ui:insert>
         </title>
     </h:head>
 
-    <h:body>
+    <h:body >
         
         <center>
 
@@ -26,18 +32,28 @@
                         <ui:include src="Header.xhtml"></ui:include>
                     </ui:insert>
                 </div>
+                
+                
+                <h2 class="title">
+                    <ui:insert name="title">
+                        ¿¿¿ Titulo no definido ???
+                    </ui:insert>
+                </h2>  
+                
+                <br/>
 
                 <div id="content" class="center_content">
                     <ui:insert name="content">
                         Contenido no definido
                     </ui:insert>
                 </div>
-
-                <div id="bottom">
-                    <ui:insert name="bottom">
-                        <ui:include src="Footer.xhtml"></ui:include>
-                    </ui:insert>
-                </div>
+                
+            </div>
+            
+            <div id="bottom">
+                <ui:insert name="bottom">
+                    <ui:include src="Footer.xhtml"></ui:include>
+                </ui:insert>
             </div>
             
         </center>

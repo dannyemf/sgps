@@ -8,27 +8,25 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">   
 
-    <ui:define name="page_title">Grupos</ui:define>    
-    <ui:define name="title">Lista de grupos</ui:define>
+    <ui:define name="page_title">Proyectos</ui:define>    
+    <ui:define name="title">Lista de proyectos</ui:define>
     
-    <ui:define name="content">        
+    <ui:define name="content">
         
-        #{contextBean.checkPagePermiso('lista_grupos')}
+        #{contextBean.checkPagePermiso('lista_proyectos')}
 
-        <h:form>
+        <h:form id="formListaUsuarios">
             
             <ice:outputLabel value="Texto"></ice:outputLabel>
-            <ice:inputText value="#{grupoController.textoBusqueda}"></ice:inputText>
-            <ice:commandButton value="Buscar" actionListener="#{grupoController.eventoBuscar}"></ice:commandButton>
-            <ice:commandButton value="Nuevo" action="#{grupoController.eventoNuevo}"></ice:commandButton>
+            <ice:inputText value="#{proyectoController.textoBusqueda}"></ice:inputText>
+            <ice:commandButton value="Buscar" actionListener="#{proyectoController.eventoBuscar}"></ice:commandButton>
+            <ice:commandButton value="Nuevo" action="#{proyectoController.eventoNuevo}" disabled="#{contextBean.checkDisabled('crear_proyecto')}"></ice:commandButton>            
             
             <br/>
-            <br/>                       
+            <br/>
             
-            <ace:dataTable id="listTable" value="#{grupoController.listaDatos}"
-                           var="item"
-                                                    
-                           paginator="true" paginatorPosition="bottom" rows="10">
+            <ace:dataTable id="listTable" value="#{proyectoController.listaDatos}" 
+                           var="item" paginator="true" paginatorPosition="bottom" rows="10">
                 
                 <ace:column headerText="Id" sortBy="id" filterBy="#{item.id}" filterMatchMode="contains">
                     <h:outputText value="#{item.id}"/>
@@ -38,12 +36,21 @@
                     <h:outputText value="#{item.nombre}"/>
                 </ace:column>
                 
+                <ace:column headerText="Inicio" sortBy="fechaInicio" filterBy="#{item.fechaInicio}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaInicio}"/>
+                </ace:column>
+                
+                <ace:column headerText="Fin" sortBy="fechaFin" filterBy="#{item.fechaFin}" filterMatchMode="contains">
+                    <h:outputText value="#{item.fechaFin}"/>
+                </ace:column>
+                
                 <ace:column headerText="Descripción" sortBy="descripcion" filterBy="#{item.descripcion}" filterMatchMode="contains">
                     <h:outputText value="#{item.descripcion}"/>
                 </ace:column>
+                                
                 
-                <ace:column headerText="Acción">
-                    <h:commandLink value="Editar" target="_blank" action="#{grupoController.eventoEditar(item)}"></h:commandLink>
+                <ace:column>
+                    <h:commandLink value="Editar" action="#{proyectoController.eventoEditar(item)}" disabled="#{contextBean.checkDisabled('editar_proyecto')}"></h:commandLink>
                 </ace:column>
                 
             </ace:dataTable>

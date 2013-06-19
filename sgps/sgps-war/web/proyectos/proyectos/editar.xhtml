@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/Master.xhtml"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://sgps/jsf-custom-components/"
+                >
+
+    <ui:define name="page_title">Proyecto</ui:define>
+    <ui:define name="title">Editar proyecto</ui:define>
+    
+    <ui:define name="content">
+        
+        #{contextBean.checkPagePermiso(proyectoController.modeloEdicion.id eq null ? 'crear_proyecto' : 'editar_proyecto')}
+
+        <h:form>                        
+           
+            <ice:panelGrid columns="3">
+                
+                <ice:outputLabel value="Nombre"></ice:outputLabel>
+                <ice:inputText id="txtNombre" label="Nombre" value="#{proyectoController.modeloEdicion.nombre}" required="true" maxlength="100">
+                    <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                </ice:inputText>
+                <ice:message for="txtNombre"></ice:message>
+                
+                <ice:outputLabel value="Descripción:"></ice:outputLabel>
+                <ice:inputTextarea id="txtDesc" label="Descripción" value="#{proyectoController.modeloEdicion.descripcion}" required="true"></ice:inputTextarea>
+                <ice:message for="txtDesc"></ice:message>
+                
+                <ice:outputLabel value="Inicio:"></ice:outputLabel>
+                <ace:dateTimeEntry id="dteInicio" label="Inicio" value="#{proyectoController.modeloEdicion.fechaInicio}" required="true" renderAsPopup="true" locale="es-EC" showButtonPanel="true" pattern="dd/MM/yyyy" navigator="true" showOn="button"></ace:dateTimeEntry>                
+                <ice:message for="dteInicio"></ice:message>
+                
+                <ice:outputLabel value="Fin:"></ice:outputLabel>
+                <ace:dateTimeEntry id="dteFin" label="Fin" value="#{proyectoController.modeloEdicion.fechaFin}" required="true" renderAsPopup="true" locale="es-EC" showButtonPanel="true" pattern="dd/MM/yyyy" navigator="true" showOn="button"></ace:dateTimeEntry>                
+                <ice:message for="dteFin"></ice:message>
+                                
+            </ice:panelGrid>                        
+            
+            <ice:commandButton value="Guardar" action="#{proyectoController.eventoGuardar}"></ice:commandButton>
+            <ice:commandButton value="Cancelar" immediate="true" action="#{proyectoController.eventoCancelar}"></ice:commandButton>
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

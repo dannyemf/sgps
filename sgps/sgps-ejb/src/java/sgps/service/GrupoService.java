@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import sgps.dao.GenericoJPADAO;
 import sgps.model.seguridad.Grupo;
+import sgps.model.seguridad.Menu;
 import sgps.model.seguridad.Permiso;
 import sgps.model.seguridad.QGrupo;
 import sgps.model.seguridad.Usuario;
@@ -80,6 +81,26 @@ public class GrupoService extends GenericoJPADAO<Grupo> implements GrupoServiceL
         for (Iterator<Grupo> it = grupos.iterator(); it.hasNext();) {
             Grupo g = it.next();
             if(permiso.getGrupos().contains(g)){
+                lst.add(new ItemGrupo(true, g));
+            }else{
+                lst.add(new ItemGrupo(false, g));
+            }
+        }
+        
+        return lst;
+    }
+    
+    @Override
+    public List<ItemGrupo> obtenerGrupos(Menu menu){
+        
+        
+        List<ItemGrupo> lst = new ArrayList<ItemGrupo>();
+        
+        List<Grupo> grupos = buscarTodos(Grupo.class);
+        
+        for (Iterator<Grupo> it = grupos.iterator(); it.hasNext();) {
+            Grupo g = it.next();
+            if(menu.getGrupos().contains(g)){
                 lst.add(new ItemGrupo(true, g));
             }else{
                 lst.add(new ItemGrupo(false, g));

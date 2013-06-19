@@ -5,7 +5,6 @@
 package sgps.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,26 +13,20 @@ import javax.enterprise.context.ConversationScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import sgps.model.seguridad.Menu;
-import sgps.service.GrupoServiceLocal;
-import sgps.service.MenuServiceLocal;
-import sgps.view.model.ItemGrupo;
+import sgps.model.proyecto.Proyecto;
+import sgps.service.ProyectoServiceLocal;
 
 /**
- * Controlador de permisos
- * 
+ * Controlador de proyectos
  * @author Danny Muñoz
  */
 
 @Named
 @ConversationScoped
-public class MenuController extends Controller{
+public class ProyectoController extends Controller{
     
     @EJB
-    private MenuServiceLocal service;
-    
-    @EJB
-    private GrupoServiceLocal groupService;
+    private ProyectoServiceLocal service;        
     
     @Inject
     private ContextBean context;
@@ -44,27 +37,19 @@ public class MenuController extends Controller{
     /**
      * Listado de usuarios a mostrar en la vista
      */
-    private List<Menu> listaDatos = new ArrayList<Menu>();
-    
-    private List<Menu> listaPadres = new ArrayList<Menu>();
-    
-    
-    /**
-     * Lista de grupos para permitir seleccionar al usuario mediante un check
-     */
-    private List<ItemGrupo> grupos = new ArrayList<ItemGrupo>();
+    private List<Proyecto> listaDatos = new ArrayList<Proyecto>();        
     
     /**
      * Usuario en edición
      */
-    private Menu modeloEdicion;
+    private Proyecto modeloEdicion;
     
     /**
      * Texto para filtrar los datos al presionar el botón buscar
      */
     private String textoBusqueda;
 
-    public MenuController() {
+    public ProyectoController() {
     }
     
     @PostConstruct
@@ -87,16 +72,16 @@ public class MenuController extends Controller{
         if (!conversation.isTransient()) {
             conversation.end();
         }
-    }    
-        
+    }        
     
     /**
      * Evento invocada al presionar el botón buscar
      * @param evento 
      */
     public void eventoBuscar(ActionEvent event){        
-        beginConversation();
+        beginConversation();       
         listaDatos = service.buscarPor(textoBusqueda);
+        System.out.println("buscar: " + event);
     }
     
     /**
@@ -106,11 +91,8 @@ public class MenuController extends Controller{
     public String eventoNuevo(){
         System.out.println("eventoNuevo(): " + conversation.getId());
         beginConversation();
-        modeloEdicion = new Menu();
+        modeloEdicion = new Proyecto();
         
-        listaPadres = service.buscarTodos(Menu.class);
-        
-        grupos = groupService.obtenerGrupos(modeloEdicion);
         return "editar.xhtml?faces-redirect=true";
     }
     
@@ -119,15 +101,12 @@ public class MenuController extends Controller{
      * @param item El usuario a editar
      * @return 
      */
-    public String eventoEditar(Menu item){
+    public String eventoEditar(Proyecto item){
         System.out.println("eventoEditar(): ");
-        beginConversation();        
+        beginConversation();
+        
         modeloEdicion = item;
-        
-        listaPadres = service.buscarTodos(Menu.class);
-        listaPadres.remove(item);
-        
-        grupos = groupService.obtenerGrupos(modeloEdicion);
+                
         return "editar.xhtml?faces-redirect=true";
     }
     
@@ -148,15 +127,15 @@ public class MenuController extends Controller{
     public String eventoGuardar(){
         System.out.println("eventoGuardar(): ");
         
-        for (Iterator<ItemGrupo> it = grupos.iterator(); it.hasNext();) {
-            ItemGrupo ig = it.next();
-            if(ig.isChecked()){
-                modeloEdicion.getGrupos().add(ig.getGrupo());
-            }else{
-                modeloEdicion.getGrupos().remove(ig.getGrupo());
-            }
-        }
-        Menu us = modeloEdicion.getId() == null ? service.crear(modeloEdicion) : service.actualizar(modeloEdicion);
+//        for (Iterator<ItemGrupo> it = grupos.iterator(); it.hasNext();) {
+//            ItemGrupo ig = it.next();
+//            if(ig.isChecked()){
+//                modeloEdicion.getGrupos().add(ig.getGrupo());
+//            }else{
+//                modeloEdicion.getGrupos().remove(ig.getGrupo());
+//            }
+//        }
+        Proyecto us = modeloEdicion.getId() == null ? service.crear(modeloEdicion) : service.actualizar(modeloEdicion);
         
         
         //endConversation();
@@ -166,42 +145,28 @@ public class MenuController extends Controller{
     /**
      * @return the listaDatos
      */
-    public List<Menu> getListaDatos() {
+    public List<Proyecto> getListaDatos() {
         return listaDatos;
     }
 
     /**
      * @param listaDatos the listaDatos to set
      */
-    public void setListaDatos(List<Menu> listaDatos) {
+    public void setListaDatos(List<Proyecto> listaDatos) {
         this.listaDatos = listaDatos;
-    }
-
-    /**
-     * @return the grupos
-     */
-    public List<ItemGrupo> getGrupos() {
-        return grupos;
-    }
-
-    /**
-     * @param grupos the grupos to set
-     */
-    public void setGrupos(List<ItemGrupo> grupos) {
-        this.grupos = grupos;
-    }
+    }    
 
     /**
      * @return the modeloEdicion
      */
-    public Menu getModeloEdicion() {
+    public Proyecto getModeloEdicion() {
         return modeloEdicion;
     }
 
     /**
      * @param modeloEdicion the modeloEdicion to set
      */
-    public void setModeloEdicion(Menu modeloEdicion) {
+    public void setModeloEdicion(Proyecto modeloEdicion) {
         this.modeloEdicion = modeloEdicion;
     }
 
@@ -218,19 +183,8 @@ public class MenuController extends Controller{
     public void setTextoBusqueda(String textoBusqueda) {
         this.textoBusqueda = textoBusqueda;
     }
+    
+    
 
-    /**
-     * @return the listaPadres
-     */
-    public List<Menu> getListaPadres() {
-        return listaPadres;
-    }
-
-    /**
-     * @param listaPadres the listaPadres to set
-     */
-    public void setListaPadres(List<Menu> listaPadres) {
-        this.listaPadres = listaPadres;
-    }
-           
+    
 }

@@ -140,7 +140,7 @@ public class UsuarioController extends Controller{
     public String eventoEditar(Usuario item){
         System.out.println("eventoEditar(): ");
         beginConversation();        
-        
+        modeloEdicion = item;
         grupos = groupService.obtenerGrupos(modeloEdicion);
         return "editar.xhtml?faces-redirect=true";
     }
