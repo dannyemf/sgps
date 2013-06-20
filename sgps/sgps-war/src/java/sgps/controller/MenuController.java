@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import sgps.model.seguridad.Menu;
@@ -39,12 +38,7 @@ public class MenuController extends Controller{
     private ContextBean context;
     
     @Inject
-    private Conversation conversation;    
-    
-    /**
-     * Listado de usuarios a mostrar en la vista
-     */
-    private List<Menu> listaDatos = new ArrayList<Menu>();
+    private Conversation conversation;            
     
     private List<Menu> listaPadres = new ArrayList<Menu>();
     
@@ -58,11 +52,7 @@ public class MenuController extends Controller{
      * Usuario en edición
      */
     private Menu modeloEdicion;
-    
-    /**
-     * Texto para filtrar los datos al presionar el botón buscar
-     */
-    private String textoBusqueda;
+        
 
     public MenuController() {
     }
@@ -87,17 +77,7 @@ public class MenuController extends Controller{
         if (!conversation.isTransient()) {
             conversation.end();
         }
-    }    
-        
-    
-    /**
-     * Evento invocada al presionar el botón buscar
-     * @param evento 
-     */
-    public void eventoBuscar(ActionEvent event){        
-        beginConversation();
-        listaDatos = service.buscarPor(textoBusqueda);
-    }
+    }                    
     
     /**
      * Evento invocada al presionar el botón nuevo
@@ -161,21 +141,7 @@ public class MenuController extends Controller{
         
         //endConversation();
         return "lista.xhtml?faces-redirect=true";
-    }
-
-    /**
-     * @return the listaDatos
-     */
-    public List<Menu> getListaDatos() {
-        return listaDatos;
-    }
-
-    /**
-     * @param listaDatos the listaDatos to set
-     */
-    public void setListaDatos(List<Menu> listaDatos) {
-        this.listaDatos = listaDatos;
-    }
+    }   
 
     /**
      * @return the grupos
@@ -203,21 +169,7 @@ public class MenuController extends Controller{
      */
     public void setModeloEdicion(Menu modeloEdicion) {
         this.modeloEdicion = modeloEdicion;
-    }
-
-    /**
-     * @return the textoBusqueda
-     */
-    public String getTextoBusqueda() {
-        return textoBusqueda;
-    }
-
-    /**
-     * @param textoBusqueda the textoBusqueda to set
-     */
-    public void setTextoBusqueda(String textoBusqueda) {
-        this.textoBusqueda = textoBusqueda;
-    }
+    }   
 
     /**
      * @return the listaPadres

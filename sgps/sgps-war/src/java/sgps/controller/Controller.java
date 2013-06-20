@@ -7,6 +7,7 @@ package sgps.controller;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.icefaces.util.JavaScriptRunner;
 
 /**
  * Clase base con métodos de utilidad del que debe heredar todo controlador
@@ -31,6 +32,10 @@ public class Controller implements Serializable{
      */
     public void addErrorMessage(String clientId, String message){
         FacesContext.getCurrentInstance().addMessage(clientId, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));
+    }
+    
+    public void runScript(String js){
+        JavaScriptRunner.runScript(FacesContext.getCurrentInstance(), js); 
     }
     
 }

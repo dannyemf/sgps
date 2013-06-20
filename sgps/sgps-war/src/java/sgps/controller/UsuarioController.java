@@ -4,7 +4,6 @@
  */
 package sgps.controller;
 
-import com.mysema.query.jpa.impl.JPAQuery;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,14 +11,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import sgps.model.seguridad.QUsuario;
 import sgps.model.seguridad.Usuario;
 import sgps.service.GrupoServiceLocal;
 import sgps.service.UsuarioServiceLocal;
@@ -44,12 +37,7 @@ public class UsuarioController extends Controller{
     private ContextBean context;
     
     @Inject
-    private Conversation conversation;    
-    
-    /**
-     * Listado de usuarios a mostrar en la vista
-     */
-    private List<Usuario> listaDatos = new ArrayList<Usuario>();
+    private Conversation conversation;            
     
     /**
      * Lista de grupos para permitir seleccionar al usuario mediante un check
@@ -59,12 +47,7 @@ public class UsuarioController extends Controller{
     /**
      * Usuario en edición
      */
-    private Usuario modeloEdicion;
-    
-    /**
-     * Texto para filtrar los datos al presionar el botón buscar
-     */
-    private String textoBusqueda;
+    private Usuario modeloEdicion;        
 
     public UsuarioController() {
     }
@@ -89,36 +72,7 @@ public class UsuarioController extends Controller{
         if (!conversation.isTransient()) {
             conversation.end();
         }
-    }    
-    
-    /**
-     * Validador del nombre del permiso. Verfica que no esté duplicado
-     * @param context FacesContext
-     * @param component UIComponent
-     * @param value Valor
-     * @throws ValidatorException 
-     */
-    public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        System.out.println(value +"-" + modeloEdicion);
-        JPAQuery q = service.newJpaQuery();
-        QUsuario p = QUsuario.usuario;        
-        boolean e = q.from(p).where(p.id.ne(modeloEdicion.getId()).and(p.login.eq((String)value))).exists();
-        if(e){
-            FacesMessage fm = new FacesMessage("Nombre de usuario no disponible");
-            fm.setSeverity(FacesMessage.SEVERITY_WARN);            
-            throw  new ValidatorException(fm);
-        }
-    }
-    
-    /**
-     * Evento invocada al presionar el botón buscar
-     * @param evento 
-     */
-    public void eventoBuscar(ActionEvent event){        
-        beginConversation();       
-        listaDatos = service.buscarPor(textoBusqueda);
-        System.out.println("buscar: " + event);
-    }
+    }        
     
     /**
      * Evento invocada al presionar el botón nuevo
@@ -175,21 +129,7 @@ public class UsuarioController extends Controller{
         
         //endConversation();
         return "lista.xhtml?faces-redirect=true";
-    }
-
-    /**
-     * @return the listaDatos
-     */
-    public List<Usuario> getListaDatos() {
-        return listaDatos;
-    }
-
-    /**
-     * @param listaDatos the listaDatos to set
-     */
-    public void setListaDatos(List<Usuario> listaDatos) {
-        this.listaDatos = listaDatos;
-    }
+    }    
 
     /**
      * @return the grupos
@@ -217,23 +157,6 @@ public class UsuarioController extends Controller{
      */
     public void setModeloEdicion(Usuario modeloEdicion) {
         this.modeloEdicion = modeloEdicion;
-    }
-
-    /**
-     * @return the textoBusqueda
-     */
-    public String getTextoBusqueda() {
-        return textoBusqueda;
-    }
-
-    /**
-     * @param textoBusqueda the textoBusqueda to set
-     */
-    public void setTextoBusqueda(String textoBusqueda) {
-        this.textoBusqueda = textoBusqueda;
-    }
-    
-    
-
+    }   
     
 }

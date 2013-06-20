@@ -4,7 +4,6 @@
  */
 package sgps.controller;
 
-import com.mysema.query.jpa.impl.JPAQuery;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,15 +11,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import sgps.model.seguridad.Permiso;
-import sgps.model.seguridad.QPermiso;
 import sgps.service.GrupoServiceLocal;
 import sgps.service.PermisoServiceLocal;
 import sgps.view.model.ItemGrupo;
@@ -45,12 +38,7 @@ public class PermisoController extends Controller{
     private ContextBean context;
     
     @Inject
-    private Conversation conversation;    
-    
-    /**
-     * Listado de usuarios a mostrar en la vista
-     */
-    private List<Permiso> listaDatos = new ArrayList<Permiso>();
+    private Conversation conversation;          
     
     /**
      * Lista de grupos para permitir seleccionar al usuario mediante un check
@@ -60,12 +48,7 @@ public class PermisoController extends Controller{
     /**
      * Usuario en edición
      */
-    private Permiso modeloEdicion;
-    
-    /**
-     * Texto para filtrar los datos al presionar el botón buscar
-     */
-    private String textoBusqueda;
+    private Permiso modeloEdicion;       
 
     public PermisoController() {
     }
@@ -90,34 +73,7 @@ public class PermisoController extends Controller{
         if (!conversation.isTransient()) {
             conversation.end();
         }
-    }    
-    
-    /**
-     * Validador del nombre del permiso. Verfica que no esté duplicado
-     * @param context FacesContext
-     * @param component UIComponent
-     * @param value Valor
-     * @throws ValidatorException 
-     */
-    public void validateNombre(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        JPAQuery q = service.newJpaQuery();
-        QPermiso p = QPermiso.permiso;        
-        boolean e = q.from(p).where(p.id.ne(modeloEdicion.getId()).and(p.nombre.eq((String)value))).exists();
-        if(e){
-            FacesMessage fm = new FacesMessage("Nombre de permiso no disponible");
-            fm.setSeverity(FacesMessage.SEVERITY_WARN);            
-            throw  new ValidatorException(fm);
-        }
-    }
-    
-    /**
-     * Evento invocada al presionar el botón buscar
-     * @param evento 
-     */
-    public void eventoBuscar(ActionEvent event){        
-        beginConversation();
-        listaDatos = service.buscarPor(textoBusqueda);
-    }
+    }        
     
     /**
      * Evento invocada al presionar el botón nuevo
@@ -175,21 +131,7 @@ public class PermisoController extends Controller{
         
         //endConversation();
         return "lista.xhtml?faces-redirect=true";
-    }
-
-    /**
-     * @return the listaDatos
-     */
-    public List<Permiso> getListaDatos() {
-        return listaDatos;
-    }
-
-    /**
-     * @param listaDatos the listaDatos to set
-     */
-    public void setListaDatos(List<Permiso> listaDatos) {
-        this.listaDatos = listaDatos;
-    }
+    }    
 
     /**
      * @return the grupos
@@ -217,20 +159,6 @@ public class PermisoController extends Controller{
      */
     public void setModeloEdicion(Permiso modeloEdicion) {
         this.modeloEdicion = modeloEdicion;
-    }
-
-    /**
-     * @return the textoBusqueda
-     */
-    public String getTextoBusqueda() {
-        return textoBusqueda;
-    }
-
-    /**
-     * @param textoBusqueda the textoBusqueda to set
-     */
-    public void setTextoBusqueda(String textoBusqueda) {
-        this.textoBusqueda = textoBusqueda;
-    }
+    }    
            
 }

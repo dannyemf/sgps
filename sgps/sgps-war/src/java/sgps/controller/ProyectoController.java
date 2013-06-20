@@ -4,7 +4,9 @@
  */
 package sgps.controller;
 
+import com.mysema.query.jpa.impl.JPAQuery;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,8 +15,15 @@ import javax.enterprise.context.ConversationScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import sgps.model.proyecto.Fase;
 import sgps.model.proyecto.Proyecto;
+import sgps.model.seguridad.Usuario;
 import sgps.service.ProyectoServiceLocal;
+
+ import org.icefaces.ace.event.TextChangeEvent;
+import sgps.controller.conmparator.FaseOrdenComparator;
+import sgps.model.seguridad.QUsuario;
+import sgps.service.UsuarioServiceLocal;
 
 /**
  * Controlador de proyectos
@@ -26,28 +35,30 @@ import sgps.service.ProyectoServiceLocal;
 public class ProyectoController extends Controller{
     
     @EJB
-    private ProyectoServiceLocal service;        
+    private ProyectoServiceLocal service;
+    
+    @EJB
+    private UsuarioServiceLocal serviceUsuario;
     
     @Inject
     private ContextBean context;
     
     @Inject
-    private Conversation conversation;    
+    private Conversation conversation;            
     
-    /**
-     * Listado de usuarios a mostrar en la vista
-     */
-    private List<Proyecto> listaDatos = new ArrayList<Proyecto>();        
+    private List<Usuario> listaUsuarios = new ArrayList<Usuario>();    
     
     /**
      * Usuario en edición
      */
     private Proyecto modeloEdicion;
     
-    /**
-     * Texto para filtrar los datos al presionar el botón buscar
-     */
-    private String textoBusqueda;
+    private Fase faseEdicion;
+    
+    private String miembroAgregar;
+    
+    private String jefeActual;
+    
 
     public ProyectoController() {
     }
@@ -74,14 +85,15 @@ public class ProyectoController extends Controller{
         }
     }        
     
-    /**
-     * Evento invocada al presionar el botón buscar
-     * @param evento 
-     */
-    public void eventoBuscar(ActionEvent event){        
-        beginConversation();       
-        listaDatos = service.buscarPor(textoBusqueda);
-        System.out.println("buscar: " + event);
+    public void textChangeEventHandler(TextChangeEvent event) {
+        listaUsuarios.clear();
+        String filter = event.getNewValue() != null ? (String) event.getNewValue() : "";
+        System.out.println("Filtro jefe: " + filter);
+        
+        JPAQuery q = service.newJpaQuery();
+        QUsuario us = QUsuario.usuario;
+        
+        listaUsuarios = q.from(us).where(us.login.containsIgnoreCase(filter).or(us.descripcion.containsIgnoreCase(filter))).orderBy(us.login.asc()).limit(10).list(us);
     }
     
     /**
@@ -91,7 +103,8 @@ public class ProyectoController extends Controller{
     public String eventoNuevo(){
         System.out.println("eventoNuevo(): " + conversation.getId());
         beginConversation();
-        modeloEdicion = new Proyecto();
+        
+        modeloEdicion = new Proyecto();        
         
         return "editar.xhtml?faces-redirect=true";
     }
@@ -127,34 +140,66 @@ public class ProyectoController extends Controller{
     public String eventoGuardar(){
         System.out.println("eventoGuardar(): ");
         
-//        for (Iterator<ItemGrupo> it = grupos.iterator(); it.hasNext();) {
-//            ItemGrupo ig = it.next();
-//            if(ig.isChecked()){
-//                modeloEdicion.getGrupos().add(ig.getGrupo());
-//            }else{
-//                modeloEdicion.getGrupos().remove(ig.getGrupo());
-//            }
-//        }
+        Usuario jefe = serviceUsuario.obtenerPorLogin(jefeActual);        
+        modeloEdicion.setJefe(jefe);                
+        
         Proyecto us = modeloEdicion.getId() == null ? service.crear(modeloEdicion) : service.actualizar(modeloEdicion);
         
+        endConversation();
         
-        //endConversation();
         return "lista.xhtml?faces-redirect=true";
-    }
-
-    /**
-     * @return the listaDatos
-     */
-    public List<Proyecto> getListaDatos() {
-        return listaDatos;
-    }
-
-    /**
-     * @param listaDatos the listaDatos to set
-     */
-    public void setListaDatos(List<Proyecto> listaDatos) {
-        this.listaDatos = listaDatos;
     }    
+    
+    public void eventoNuevaFase(ActionEvent evento){
+        faseEdicion = new Fase();        
+        runScript("dlgEditFase.show();");
+        System.out.println("Evento: " + conversation.getId() + " - " + faseEdicion);
+    }
+    
+    public void eventoEditarFase(ActionEvent evento, Fase fase){
+        faseEdicion = fase;
+        runScript("dlgEditFase.show();");
+    }
+    
+    public void eventoRemoverFase(ActionEvent evento, Fase fase){
+        modeloEdicion.getFases().remove(fase);
+    }
+    
+    public void eventoGuardarFase(ActionEvent evento){
+        
+        if(faseEdicion.getId() == null){
+            modeloEdicion.addFase(faseEdicion);
+        }
+        
+        faseEdicion = null;
+        runScript("dlgEditFase.hide();");
+    }
+    
+    public void eventoCancelarFase(ActionEvent evento){
+        faseEdicion = null;
+        runScript("dlgEditFase.hide();");
+    }
+    
+    public void eventoAgregarMiembro(ActionEvent evento){
+        Usuario miembro = serviceUsuario.obtenerPorLogin(miembroAgregar);
+        if(miembro != null){
+            this.modeloEdicion.getMiembros().add(miembro);
+        }        
+    }
+    
+    public void eventoRemoverMiembro(ActionEvent evento, Usuario miembro){
+        this.modeloEdicion.getMiembros().remove(miembro);
+    }
+    
+    public List<Fase> getFasesModelEdicion() {
+        List<Fase> fases = new ArrayList<Fase>(modeloEdicion.getFases());
+        Collections.sort(fases, new FaseOrdenComparator());
+        return fases;
+    }
+    
+    public List<Usuario> getMiembrosModelEdicion() {
+        return new ArrayList<Usuario>(modeloEdicion.getMiembros());
+    }
 
     /**
      * @return the modeloEdicion
@@ -168,23 +213,64 @@ public class ProyectoController extends Controller{
      */
     public void setModeloEdicion(Proyecto modeloEdicion) {
         this.modeloEdicion = modeloEdicion;
+    }    
+
+    /**
+     * @return the listaUsuarios
+     */
+    public List<Usuario> getListaUsuarios() {
+        return listaUsuarios;
     }
 
     /**
-     * @return the textoBusqueda
+     * @param listaUsuarios the listaUsuarios to set
      */
-    public String getTextoBusqueda() {
-        return textoBusqueda;
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
+    }        
+
+    /**
+     * @return the faseEdicion
+     */
+    public Fase getFaseEdicion() {
+        return faseEdicion;
     }
 
     /**
-     * @param textoBusqueda the textoBusqueda to set
+     * @param faseEdicion the faseEdicion to set
      */
-    public void setTextoBusqueda(String textoBusqueda) {
-        this.textoBusqueda = textoBusqueda;
+    public void setFaseEdicion(Fase faseEdicion) {
+        this.faseEdicion = faseEdicion;
     }
-    
-    
 
+    /**
+     * @return the miembroAgregar
+     */
+    public String getMiembroAgregar() {
+        return miembroAgregar;
+    }
+
+    /**
+     * @param miembroAgregar the miembroAgregar to set
+     */
+    public void setMiembroAgregar(String miembroAgregar) {
+        this.miembroAgregar = miembroAgregar;
+    }
+
+    /**
+     * @return the jefeActual
+     */
+    public String getJefeActual() {
+        return jefeActual;
+    }
+
+    /**
+     * @param jefeActual the jefeActual to set
+     */
+    public void setJefeActual(String jefeActual) {
+        this.jefeActual = jefeActual;
+    }
+
+    
     
 }

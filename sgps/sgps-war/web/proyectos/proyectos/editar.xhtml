@@ -17,29 +17,163 @@
         
         #{contextBean.checkPagePermiso(proyectoController.modeloEdicion.id eq null ? 'crear_proyecto' : 'editar_proyecto')}
 
-        <h:form>                        
-           
-            <ice:panelGrid columns="3">
+        <h:form id="formEditProy">
+            <script type="text/javascript">
+                window.onload = function(){
+                    document.getElementById('formEditProy:aceJefe_input').value = '#{proyectoController.modeloEdicion.jefe.login}';
+                };
+            </script>
+            
+            <ace:dialog 
+                widgetVar="dlgEditFase"
+                header="Editar fase"
+                modal="true"                
+                rendered="#{proyectoController.faseEdicion ne null}"
+                >
                 
-                <ice:outputLabel value="Nombre"></ice:outputLabel>
-                <ice:inputText id="txtNombre" label="Nombre" value="#{proyectoController.modeloEdicion.nombre}" required="true" maxlength="100">
-                    <f:validateLength minimum="3" maximum="100"></f:validateLength>
-                </ice:inputText>
-                <ice:message for="txtNombre"></ice:message>
+                <h:panelGrid columns="1">
+                    
+                    <ice:outputLabel value="Nombre"></ice:outputLabel>
+                    <h:inputText id="txtNombreFase" required="true" label="Nombre" value="#{proyectoController.faseEdicion.nombre}"></h:inputText>
+                    <ice:message for="txtNombreFase"></ice:message>
+                    
+                    <ice:outputLabel value="Orden"></ice:outputLabel>
+                    <h:inputText id="txtOrdenFase" required="true" label="Orden" value="#{proyectoController.faseEdicion.orden}">
+                        <f:validateLongRange minimum="0"></f:validateLongRange>
+                    </h:inputText>
+                    <ice:message for="txtOrdenFase"></ice:message>
+                    
+                </h:panelGrid>
                 
-                <ice:outputLabel value="Descripción:"></ice:outputLabel>
-                <ice:inputTextarea id="txtDesc" label="Descripción" value="#{proyectoController.modeloEdicion.descripcion}" required="true"></ice:inputTextarea>
-                <ice:message for="txtDesc"></ice:message>
+                <h:commandButton value="Aceptar" actionListener="#{proyectoController.eventoGuardarFase}"></h:commandButton>
+                <h:commandButton value="Cancelar" immediate="true" actionListener="#{proyectoController.eventoCancelarFase}"></h:commandButton>
                 
-                <ice:outputLabel value="Inicio:"></ice:outputLabel>
-                <ace:dateTimeEntry id="dteInicio" label="Inicio" value="#{proyectoController.modeloEdicion.fechaInicio}" required="true" renderAsPopup="true" locale="es-EC" showButtonPanel="true" pattern="dd/MM/yyyy" navigator="true" showOn="button"></ace:dateTimeEntry>                
-                <ice:message for="dteInicio"></ice:message>
+            </ace:dialog>
+            
+            <ace:tabSet clientSide="true">
                 
-                <ice:outputLabel value="Fin:"></ice:outputLabel>
-                <ace:dateTimeEntry id="dteFin" label="Fin" value="#{proyectoController.modeloEdicion.fechaFin}" required="true" renderAsPopup="true" locale="es-EC" showButtonPanel="true" pattern="dd/MM/yyyy" navigator="true" showOn="button"></ace:dateTimeEntry>                
-                <ice:message for="dteFin"></ice:message>
+                <ace:tabPane label="Datos">
+                    <ice:panelGrid columns="3">
+                
+                        <ice:outputLabel value="Nombre"></ice:outputLabel>
+                        <ice:inputText id="txtNombre" label="Nombre" value="#{proyectoController.modeloEdicion.nombre}" required="true" maxlength="100">
+                            <f:validateLength minimum="3" maximum="100"></f:validateLength>
+                        </ice:inputText>
+                        <ice:message for="txtNombre"></ice:message>
+
+                        <ice:outputLabel value="Descripción:"></ice:outputLabel>
+                        <ice:inputTextarea id="txtDesc" label="Descripción" value="#{proyectoController.modeloEdicion.descripcion}" required="true"></ice:inputTextarea>
+                        <ice:message for="txtDesc"></ice:message>
+
+                        <ice:outputLabel value="Inicio:"></ice:outputLabel>
+                        <ace:dateTimeEntry id="dteInicio" label="Inicio" value="#{proyectoController.modeloEdicion.fechaInicio}" required="true" renderAsPopup="true" locale="es-EC" showButtonPanel="true" pattern="dd/MM/yyyy" navigator="true" showOn="button"></ace:dateTimeEntry>                
+                        <ice:message for="dteInicio"></ice:message>
+
+                        <ice:outputLabel value="Fin:"></ice:outputLabel>
+                        <ace:dateTimeEntry id="dteFin" label="Fin" value="#{proyectoController.modeloEdicion.fechaFin}" required="true" renderAsPopup="true" locale="es-EC" showButtonPanel="true" pattern="dd/MM/yyyy" navigator="true" showOn="button"></ace:dateTimeEntry>                
+                        <ice:message for="dteFin"></ice:message>
+                        
+                        <ice:outputLabel value="Jefe proyecto:"></ice:outputLabel>                        
+                        <ace:autoCompleteEntry 
+                            id="aceJefe"
+                            value="#{proyectoController.jefeActual}"
+                            label="#{proyectoController.modeloEdicion.jefe.descripcion}"
+                            required="true"
+                            requiredMessage="Jefe: Seleccione un usuario"
+                            labelPosition="bottom"
+                            rows="10" width="300"
+                            filterMatchMode="none"
+                            listVar="us"                            
+                            listValue="#{proyectoController.listaUsuarios}"
+                            filterBy="#{us.login}"
+                            textChangeListener="#{proyectoController.textChangeEventHandler}"
+                            validator="usarioLoginValidator"
+                            validatorMessage="Jefe: Seleccione un usuario válido"
+                            >                                                        
+                            
+                            <f:facet name="row">
+                                <h:panelGrid columns="2" width="100%" columnClasses="col50,col25">
+                                    <h:outputText value="#{us.login}" />
+                                    <h:outputText value="#{us.descripcion}" />
+                                </h:panelGrid>
+                            </f:facet>
+                        </ace:autoCompleteEntry>                        
+                        <ice:message for="aceJefe"></ice:message>
                                 
-            </ice:panelGrid>                        
+                    </ice:panelGrid>
+                </ace:tabPane>
+                
+                <ace:tabPane label="Fases">
+                    
+                    <ice:commandLink value="Nueva" immediate="true" actionListener="#{proyectoController.eventoNuevaFase}"></ice:commandLink>
+                    
+                    <ace:dataTable id="listTableFases" value="#{proyectoController.fasesModelEdicion}" 
+                        var="item" paginator="true" paginatorPosition="bottom" rows="10">
+
+                         <ace:column headerText="Orden" sortBy="orden" filterBy="#{item.orden}" filterMatchMode="contains">
+                             <h:outputText value="#{item.orden}"/>
+                         </ace:column>
+
+                         <ace:column headerText="Nombre" sortBy="nombre" filterBy="#{item.nombre}" filterMatchMode="contains">
+                             <h:outputText value="#{item.nombre}"/>
+                         </ace:column>
+                        
+                        <ace:column headerText="">
+                            <h:commandLink value="Editar" actionListener="#{proyectoController.eventoEditarFase(evento, item)}"></h:commandLink>
+                        </ace:column>
+
+                     </ace:dataTable>
+                    
+                </ace:tabPane>
+                
+                <ace:tabPane label="Miembros">
+                    
+                    <h:panelGrid columns="3">
+                        <ice:outputLabel value="Agregar miembro:"></ice:outputLabel>                        
+                        <ace:autoCompleteEntry 
+                            id="aceMiembro"
+                            value="#{proyectoController.miembroAgregar}"                        
+                            rows="10" width="300"
+                            filterMatchMode="none"
+                            listVar="us"
+                            listValue="#{proyectoController.listaUsuarios}"
+                            filterBy="#{us.login}"
+                            textChangeListener="#{proyectoController.textChangeEventHandler}"                        
+                            >                        
+
+                            <f:facet name="row">
+                                <h:panelGrid columns="2" width="100%" columnClasses="col50,col25">
+                                    <h:outputText value="#{us.login}" />
+                                    <h:outputText value="#{us.descripcion}" />
+                                </h:panelGrid>
+                            </f:facet>
+                        </ace:autoCompleteEntry>                                            
+                        <h:commandLink value="Agregar" actionListener="#{proyectoController.eventoAgregarMiembro}" ></h:commandLink>
+                    </h:panelGrid>
+                    
+                    <ace:dataTable id="listTableMiembros" value="#{proyectoController.miembrosModelEdicion}" 
+                        var="item" paginator="true" paginatorPosition="bottom" rows="10">
+
+                        <ace:column headerText="Login" sortBy="login" filterBy="#{item.login}" filterMatchMode="contains">
+                             <h:outputText value="#{item.login}"/>
+                         </ace:column>
+
+                         <ace:column headerText="Nombre" sortBy="descripcion" filterBy="#{item.descripcion}" filterMatchMode="contains">
+                             <h:outputText value="#{item.descripcion}"/>
+                         </ace:column>
+                        
+                        <ace:column headerText="">
+                            <h:commandLink value="Remover" actionListener="#{proyectoController.eventoRemoverMiembro(evento, item)}"></h:commandLink>
+                        </ace:column>
+
+                     </ace:dataTable>
+                    
+                </ace:tabPane>
+                
+            </ace:tabSet>
+            
+            <br/>
+            
             
             <ice:commandButton value="Guardar" action="#{proyectoController.eventoGuardar}"></ice:commandButton>
             <ice:commandButton value="Cancelar" immediate="true" action="#{proyectoController.eventoCancelar}"></ice:commandButton>

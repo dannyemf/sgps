@@ -69,4 +69,16 @@
         <local>sgps.service.MenuServiceLocal</local>
         <ejb-link>sgps-ejb.jar#MenuService</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>UsuarioService</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sgps.service.UsuarioServiceLocal</local>
+        <ejb-link>sgps-ejb.jar#UsuarioService</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>UsuarioService1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sgps.service.UsuarioServiceLocal</local>
+        <ejb-link>sgps-ejb.jar#UsuarioService</ejb-link>
+    </ejb-local-ref>
 </web-app>

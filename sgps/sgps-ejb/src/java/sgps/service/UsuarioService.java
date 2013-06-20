@@ -47,6 +47,13 @@ public class UsuarioService extends GenericoJPADAO<Usuario> implements UsuarioSe
         .list(us);
     }
     
+    @Override
+    public Usuario obtenerPorLogin(String login){
+        JPAQuery q = new JPAQuery(em);
+        QUsuario us = QUsuario.usuario;        
+        return q.from(us).where(us.login.eq(login)).uniqueResult(us);
+    }
+    
     
     
 

@@ -41,7 +41,7 @@ public class Usuario implements Serializable {
     
     @Column(nullable = false, length = 80)
     private String descripcion;    
-    
+        
     @ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_grupo", schema = "seguridad", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "GRUPO_ID") })
     private Set<Grupo> grupos = new HashSet<Grupo>();

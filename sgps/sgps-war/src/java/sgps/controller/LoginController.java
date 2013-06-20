@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 import sgps.model.seguridad.Usuario;
 import sgps.service.UsuarioServiceLocal;
 

@@ -14,7 +14,6 @@ import javax.inject.Named;
 import org.icefaces.ace.component.menuitem.MenuItem;
 import org.icefaces.ace.component.submenu.Submenu;
 import org.icefaces.ace.model.DefaultMenuModel;
-import org.icefaces.ace.model.MenuModel;
 import sgps.model.seguridad.Menu;
 import sgps.model.seguridad.Usuario;
 import sgps.service.MenuServiceLocal;
@@ -31,7 +30,7 @@ public class MenuBean extends Controller{
     @EJB
     private MenuServiceLocal service;
     
-    private MenuModel menuModel = new DefaultMenuModel();
+    private DefaultMenuModel menuModel = new DefaultMenuModel();
     
     public void init(Usuario usuario){
         
@@ -84,14 +83,14 @@ public class MenuBean extends Controller{
     /**
      * @return the menuModel
      */
-    public MenuModel getMenuModel() {
+    public DefaultMenuModel getMenuModel() {
         return menuModel;
     }
 
     /**
      * @param menuModel the menuModel to set
      */
-    public void setMenuModel(MenuModel menuModel) {
+    public void setMenuModel(DefaultMenuModel menuModel) {
         this.menuModel = menuModel;
     }
     

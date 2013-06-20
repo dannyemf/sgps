@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -55,9 +56,13 @@ public class Proyecto implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)    
     private Usuario jefe;
     
-    @ManyToMany(cascade={CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinTable(name = "proyecto_usuario", schema = "proyecto", joinColumns = { @JoinColumn(name = "PROYECTO_ID") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_ID") })
-    private Set<Usuario> miembros = new HashSet<>();
+    //Is your relationship between item and component unidirectional or bidirectional? If it's bidirectional make sure you don't have Cascade.MERGE calls going back up to Item.
+    @ManyToMany(cascade={CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinTable(name = "proyecto_usuario", schema = "proyecto", joinColumns = { @JoinColumn(name = "PROYECTO_ID") }, inverseJoinColumns = { @JoinColumn(name = "USUARIO_ID")})    
+    private Set<Usuario> miembros = new HashSet<Usuario>();
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "proyecto")
+    private Set<Fase> fases = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -90,6 +95,12 @@ public class Proyecto implements Serializable {
     @Override
     public String toString() {
         return "sgps.model.core.Proyecto[ id=" + id + " ]";
+    }
+    
+    public boolean addFase(Fase fase){
+        fase.setProyecto(this);
+        
+        return this.fases.add(fase);
     }
 
     /**
@@ -174,6 +185,20 @@ public class Proyecto implements Serializable {
      */
     public void setMiembros(Set<Usuario> miembros) {
         this.miembros = miembros;
+    }
+
+    /**
+     * @return the fases
+     */
+    public Set<Fase> getFases() {
+        return fases;
+    }
+
+    /**
+     * @param fases the fases to set
+     */
+    public void setFases(Set<Fase> fases) {
+        this.fases = fases;
     }
     
 }

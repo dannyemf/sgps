@@ -58,6 +58,11 @@ public class GenericoJPADAO<T> implements GenericoDAOInterface<T> {
     public T actualizar(T entidad) {        
        return em.merge(entidad);   // Actualiza los datos de "entidad" en su correspondiente tupla BD
     }
+    
+    
+    public void detach(T entidad) {        
+       em.detach(entidad);
+    }
 
     @Override
     public void eliminar(T entidad) {
