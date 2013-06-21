@@ -4,9 +4,11 @@
  */
 package sgps.service;
 
+import java.util.List;
 import javax.ejb.Local;
 import sgps.dao.GenericoDAOInterface;
 import sgps.model.proyecto.Proyecto;
+import sgps.model.seguridad.Usuario;
 
 /**
  *
@@ -14,5 +16,7 @@ import sgps.model.proyecto.Proyecto;
  */
 @Local
 public interface ProyectoServiceLocal extends GenericoDAOInterface<Proyecto> {
+    
+    List<Proyecto> obtenerProyectos(Usuario usuario);
     
 }

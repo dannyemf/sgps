@@ -20,7 +20,7 @@ import sgps.service.MenuServiceLocal;
 
 /**
  *
- * @author remoto
+ * @author Danny Muñoz
  */
 
 @Named
@@ -48,6 +48,15 @@ public class MenuBean extends Controller{
             
             this.crearMenu(usuario, mi, m);
         }
+        
+        //Crear
+        MenuItem miIssues = new MenuItem();
+        miIssues.setValue("Issues");        
+
+        ELContext el = FacesContext.getCurrentInstance().getELContext();
+        ExpressionFactory ef = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
+        miIssues.setActionExpression(ef.createMethodExpression(el, "/proyectos/issues/lista.xhtml?faces-redirect=true", null, new Class[0]));
+        menuModel.addMenuItem(miIssues);
         
     }
     

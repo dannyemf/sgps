@@ -9,6 +9,8 @@
     <class>sgps.model.seguridad.Usuario</class>
     <class>sgps.model.proyecto.Proyecto</class>
     <class>sgps.model.proyecto.Fase</class>
+    <class>sgps.model.proyecto.HistorialIssue</class>
+    <class>sgps.model.proyecto.Issue</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>

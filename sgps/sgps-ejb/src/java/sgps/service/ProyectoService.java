@@ -12,6 +12,8 @@ import sgps.model.proyecto.Proyecto;
 import sgps.model.proyecto.QProyecto;
 import sgps.model.seguridad.Permiso;
 import sgps.model.seguridad.QPermiso;
+import sgps.model.seguridad.QUsuario;
+import sgps.model.seguridad.Usuario;
 
 /**
  *
@@ -32,6 +34,19 @@ public class ProyectoService extends GenericoJPADAO<Proyecto> implements Proyect
         return q.from(p).where(p.nombre.like(getLikeString(textoBusqueda)).or(p.descripcion.like(getLikeString(textoBusqueda))))
         .orderBy(p.nombre.asc())
         .list(p);
+    }
+    
+    @Override
+    public List<Proyecto> obtenerProyectos(Usuario usuario){
+        
+        JPAQuery q = new JPAQuery(em);
+        
+        QProyecto p = QProyecto.proyecto;
+        QUsuario m = QUsuario.usuario;
+        
+        return q.from(p).leftJoin(p.miembros, m).where(m.eq(usuario))
+                .orderBy(p.nombre.asc())
+                .list(p);        
     }
 
 }

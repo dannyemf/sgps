@@ -38,3 +38,43 @@ MENSAJES DE VALIDACIÓN
 .iceMsgsError{
     color: red;
 }
+
+.issue-container {
+    min-height: 32px;
+    border: 1px solid rgb(202, 202, 202);
+    background-color: rgb(255, 255, 255);
+    
+    text-align: left;
+}
+
+.issue-header {
+    position: relative;
+    padding: 10px;
+    word-wrap: break-word;
+}
+
+.issue-author {
+    color: rgb(102, 102, 102);
+    font-size: 12px;
+}
+
+.issue-title {
+    border-bottom: medium none;
+    margin: 0px;
+    padding-right: 50px;
+    font-size: 21px;
+    line-height: 1.1;
+    background-color: #AFAFAF;
+}
+
+.issue-comment {
+    padding: 10px;
+    font-size: 13px;
+    overflow: auto;
+    width: 100%;
+    -moz-box-sizing: border-box;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+

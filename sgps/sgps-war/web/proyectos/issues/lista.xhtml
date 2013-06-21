@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/WEB-INF/plantilla/Master.xhtml"
+                xmlns:ace="http://www.icefaces.org/icefaces/components"
+                xmlns:ice="http://www.icesoft.com/icefaces/component"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">   
+
+    <ui:define name="page_title">Lista issues</ui:define>    
+    <ui:define name="title">Issues</ui:define>
+    
+    <ui:define name="content">
+        
+        
+        
+        <h:form>
+            
+            <ice:outputLabel value="Proyecto: "></ice:outputLabel>
+            <ui:include src="/WEB-INF/plantilla/ProyectoControl.xhtml"></ui:include>
+            
+            <h:commandButton value="Nuevo" rendered="#{contextBean.proyecto ne null and listIssueController.modeloEdicion eq null}" actionListener="#{listIssueController.accionNuevo}"></h:commandButton>
+            <h:panelGrid style="border: 1px solid green;" rendered="#{contextBean.proyecto ne null and listIssueController.modeloEdicion ne  null}">
+                
+                <ice:panelGrid columns="3">
+                    <ice:outputLabel value="Titulo"></ice:outputLabel>
+                    <ice:inputText id="txtTitulo" label="Titulo" value="#{listIssueController.modeloEdicion.titulo}" required="true" maxlength="100">
+                        <f:validateLength minimum="5" maximum="100"></f:validateLength>
+                    </ice:inputText>
+                    <ice:message for="txtTitulo"></ice:message>
+
+                    <ice:outputLabel value="Descripción"></ice:outputLabel>
+                    <ice:inputTextarea id="txtDescripcion" label="Descripción" value="#{listIssueController.modeloEdicion.descripcion}" required="true" maxlength="255">
+                        <f:validateLength minimum="5" maximum="255"></f:validateLength>
+                    </ice:inputTextarea>
+                    <ice:message for="txtDescripcion"></ice:message>
+                </ice:panelGrid>
+                
+                <div>
+                    <ice:commandButton value="Aceptar" actionListener="#{listIssueController.accionGuardar}"></ice:commandButton>
+                    <ice:commandButton value="Cancelar" immediate="true" actionListener="#{listIssueController.accionCancelar}"></ice:commandButton>
+                </div>                
+                
+            </h:panelGrid>
+            
+            <br/>
+            <br/>
+            
+            <ace:tabSet rendered="#{contextBean.proyecto ne null}">
+                
+                <ace:tabPane label="Asignados">
+                    
+                </ace:tabPane>
+                
+                <ace:tabPane label="Abiertos">
+                    <ui:repeat var="is" value="#{listIssueController.issuesAbiertos}">
+                
+                        <div class="issue-container">
+
+                            <div class="issue-header">
+                                <span class="issue-author">
+                                    <b>#{is.usuarioCreacion.login}</b>
+                                    <span>Abierto el #{is.fechaCreacion}</span>
+                                </span>
+                                <h2 class="issue-title">#{is.titulo}</h2>
+                            </div>
+
+                            <div class="issue-comment">
+                                <p>
+                                    #{is.descripcion}
+                                </p>
+                            </div>
+
+                        </div>
+                        <br/>
+
+                    </ui:repeat>
+                </ace:tabPane>                                
+                
+                <ace:tabPane label="Cerrados">
+                    
+                </ace:tabPane>
+                
+            </ace:tabSet>
+            
+            
+            <br/>
+            <br/>
+            
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

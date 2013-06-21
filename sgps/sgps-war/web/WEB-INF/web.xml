@@ -81,4 +81,10 @@
         <local>sgps.service.UsuarioServiceLocal</local>
         <ejb-link>sgps-ejb.jar#UsuarioService</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>ProyectoService</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>sgps.service.ProyectoServiceLocal</local>
+        <ejb-link>sgps-ejb.jar#ProyectoService</ejb-link>
+    </ejb-local-ref>
 </web-app>
