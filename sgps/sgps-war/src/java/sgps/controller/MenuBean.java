@@ -55,7 +55,7 @@ public class MenuBean extends Controller{
 
         ELContext el = FacesContext.getCurrentInstance().getELContext();
         ExpressionFactory ef = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
-        miIssues.setActionExpression(ef.createMethodExpression(el, "/proyectos/issues/lista.xhtml?faces-redirect=true", null, new Class[0]));
+        miIssues.setActionExpression(ef.createMethodExpression(el, "/proyectos/issues/bandeja.xhtml?faces-redirect=true", null, new Class[0]));
         menuModel.addMenuItem(miIssues);
         
     }
